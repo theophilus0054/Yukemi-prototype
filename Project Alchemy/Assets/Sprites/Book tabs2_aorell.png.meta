@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 958ce19efb73801449d881f214756de8
+guid: f989e25e40fea4e4ab744a865a104a4f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Book tabs2_aorell_0
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 529
+        width: 92
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cffeebc1d1b7df040a3bffade62cd31a
+      internalID: 1005984887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Book tabs2_aorell_1
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 358
+        width: 117
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ec8f7ff55eb8d542bd2436bf2c65a84
+      internalID: 279885490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Book tabs2_aorell_2
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 169
+        width: 99
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48736568f06975745b8c6874a4d2d043
+      internalID: -103936632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +182,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Book tabs2_aorell_0: 1005984887
+      Book tabs2_aorell_1: 279885490
+      Book tabs2_aorell_2: -103936632
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

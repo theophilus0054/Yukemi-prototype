@@ -6,27 +6,20 @@ using UnityEngine.UI;
 
 public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Image image; // The Image component of the object
-    private RectTransform rectTransform; // The RectTransform of the object
-    private GameObject currentClone; // The clone being dragged
-    private Canvas canvas; // Reference to the canvas, set dynamically at runtime
+    [SerializeField] private Canvas canvas;
+    private RectTransform rectTransform;
+    private GameObject currentClone; // Reference to the current clone being dragged
 
-
+    
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (canvas == null)
-        {
-            canvas = FindObjectOfType<Canvas>(); // Find the canvas at runtime
-        }
-
         //Debug.Log("BeginDrag");
-
+        
         // Create a clone of the gameObject
         currentClone = Instantiate(gameObject, transform.parent);
         
