@@ -77,6 +77,7 @@ public class StorageUnit : MonoBehaviour
         {
             if (potions[i] == null)
             {
+                AudioManager.instance.PlaySoundEffectMakePotion();
                 // Create the new potion based on the mixing pot result
                 Potion newPotion = new Potion(potionName, potionID, potionSprite, ingredients);
 

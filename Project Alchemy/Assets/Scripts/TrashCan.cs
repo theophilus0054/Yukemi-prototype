@@ -19,6 +19,7 @@ public class TrashCan : MonoBehaviour, IDropHandler
             // If the MixingPot component is found, empty the pot
             if (mixingPot != null)
             {
+                AudioManager.instance.PlaySoundEffectTrash();
                 mixingPot.EmptyPot(); // Call the method to empty the pot
             }
         }
@@ -32,6 +33,7 @@ public class TrashCan : MonoBehaviour, IDropHandler
             {
                 // Remove the potion from storage
                 //Debug.Log("Potion Ran2");
+                AudioManager.instance.PlaySoundEffectTrash();
                 storageUnit.RemovePotion(dragPotion.currentPotion);
                 Debug.Log("Potion removed from storage: " + dragPotion.currentPotion.potionName);
                 // NotificationText.Instance.ShowNotification(dragPotion.currentPotion.potionName + " removed from storage");

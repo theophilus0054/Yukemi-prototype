@@ -13,18 +13,17 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDrag
 
     public Sprite ingredientSprite;  // Public field to assign the ingredient sprite
 
-
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
     }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Debug.Log("BeginDrag");
         if (gameObject.CompareTag("Ingredient"))
         {
+            AudioManager.instance.PlaySoundEffectPickUpItem();
             // Create a new gameObject for the ingredient sprite
             currentClone = new GameObject("IngredientClone");
 
@@ -58,6 +57,7 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDrag
         }
         else
         {
+            AudioManager.instance.PlaySoundEffectPickUpItem();
             // Default behavior: Clone the object as usual
             currentClone = Instantiate(gameObject, transform.parent);
             RectTransform cloneRectTransform = currentClone.GetComponent<RectTransform>();

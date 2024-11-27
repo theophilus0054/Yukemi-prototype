@@ -49,6 +49,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
     {
         if (!isClicked)
         {
+            AudioManager.instance.PlaySoundEffectBirdClicked();
             isClicked = true;
             //Debug.Log("Bird has been clicked!");
 
@@ -97,6 +98,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
                 //NotificationText.Instance.ShowNotification("Bird got fed up of waiting, -10 points");
                 QuestManager.Instance.RemoveQuest(slotIndex);
                 RemoveBird();
+                AudioManager.instance.PlaySoundEffectBirdLeave();
             }
         }
     }
@@ -128,6 +130,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
                     storageUnit.RemovePotion(dragPotion.currentPotion);
                     QuestManager.Instance.RemoveQuest(slotIndex);
                     RemoveBird();
+                    AudioManager.instance.PlaySoundEffectSuccess();
                 }
                 else
                 {

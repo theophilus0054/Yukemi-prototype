@@ -20,7 +20,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
 
     void Start()
     {
-        makePotionButton.gameObject.SetActive(false); 
+        makePotionButton.gameObject.SetActive(false);
         makePotionButton.onClick.AddListener(MakePotion); 
     }
 
@@ -38,6 +38,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
             {
                 // Add the ingredient to the mixing pot
                 ingredients.Add(ingredient);
+                AudioManager.instance.PlaySoundEffectAddIngredient();
                 //Debug.Log("Added: " + ingredient.name);
                 // NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
                 PrintIngredients(); 

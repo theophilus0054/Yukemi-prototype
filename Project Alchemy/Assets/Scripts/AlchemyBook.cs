@@ -203,6 +203,7 @@ public class AlchemyBook : MonoBehaviour
 
     public void OpenPage(GameObject page)
     {
+        AudioManager.instance.PlaySoundEffectOpenBook();
         // Disable all pages
         ingredientsPage.SetActive(false);
         potionsPage.SetActive(false);
@@ -256,6 +257,7 @@ public class AlchemyBook : MonoBehaviour
 
     public void OpenBook()
     {
+        AudioManager.instance.PlaySoundEffectOpenBook();
         // Show the book background and bookmarks
         //Debug.Log("Book opened");
         bookBackground.SetActive(true);

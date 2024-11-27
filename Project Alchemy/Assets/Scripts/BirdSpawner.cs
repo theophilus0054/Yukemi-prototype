@@ -59,7 +59,7 @@ public class BirdSpawner : MonoBehaviour
                         waitTime = 7f; // Spawn in 10 seconds if there is 1 bird
                         break;
                     case 2:
-                        waitTime = 15f; // Spawn in 20 seconds if there are 2 birds
+                        waitTime = 7f; // Spawn in 20 seconds if there are 2 birds
                         break;
                     default:
                         yield return null; // If all slots are full, do nothing
@@ -181,7 +181,7 @@ public class BirdSpawner : MonoBehaviour
                 newBird.transform.localPosition = Vector3.zero; // Reset position to the slot's center
 
                 newBird.transform.localScale = new Vector2(2.5f, 2.5f);
-
+                AudioManager.instance.PlaySoundEffectBirdSummon();
                 Bird bird = newBird.GetComponent<Bird>();
                 if (bird != null)
                 {

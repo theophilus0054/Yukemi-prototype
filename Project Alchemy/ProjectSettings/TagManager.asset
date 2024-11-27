@@ -3,7 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: 
+  tags:
   - Ingredient
   - Potion
   - MixingPot
@@ -41,12 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-    - name: Background
-    uniqueID: 2180701553
-    locked: 0
-  - name: Default
+  - name: Background
     uniqueID: 0
     locked: 0
-  - name: OverlayButton
-    uniqueID: 3445992289
+  - name: Overlay
+    uniqueID: 2663215375
     locked: 0
