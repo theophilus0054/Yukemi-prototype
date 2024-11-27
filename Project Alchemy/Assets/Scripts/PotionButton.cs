@@ -4,28 +4,19 @@ using TMPro;
 
 public class PotionButton : MonoBehaviour
 {
-    // Reference to the Text component of the button
-    public TMP_Text buttonText;
 
     // Reference to the Image component of the button
     public Image buttonImage;
 
-    // Array of potion sprites that correspond to the potionID
-    public Sprite[] potionSprites;  // Corrected to use Sprite[] instead of Image[]
-
     // Method to update the button's text and image
     public void UpdateButtonUI(string potionName, int potionID)
     {
-        if (buttonText != null)
-        {
-            buttonText.text = potionName; // Set the text to the potion's name
-        }
 
-        if (buttonImage != null && potionID >= 0 && potionID < potionSprites.Length)
+        if (buttonImage != null && potionID >= 0 && potionID < 12)
         {
-            buttonImage.sprite = potionSprites[potionID]; // Set the image to the potion's sprite
+            buttonImage.sprite = PotionDatabase.Instance.potionList[potionID].potionSprite; // Set the image to the potion's sprite
             RectTransform imageRectTransform = buttonImage.GetComponent<RectTransform>();
-            imageRectTransform.sizeDelta = new Vector2(70, 70);
+            imageRectTransform.sizeDelta = new Vector2(230, 230);
         }
     }
 }

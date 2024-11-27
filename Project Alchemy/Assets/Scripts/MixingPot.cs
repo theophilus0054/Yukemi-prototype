@@ -17,22 +17,6 @@ public class MixingPot : MonoBehaviour, IDropHandler
     public Button makePotionButton;
     public StorageUnit storageUnit;
 
-    // Define valid potion combinations (This is just an example, you can define as many as you need)
-    private List<PotionRecipe> validPotionRecipes = new List<PotionRecipe>()
-    {
-        new PotionRecipe(new List<string> { "Purity Blossom", "Dragon's Blood" }, "Restorative Remedy"), 
-        new PotionRecipe(new List<string> { "Southern Star Silt", "Faerie Dust" }, "Mixture of Mana"),
-        new PotionRecipe(new List<string> { "Southern Star Silt", "Dragon's Blood" }, "Salve of Strength"),
-        new PotionRecipe(new List<string> { "Purity Blossom", "Southern Star Silt" }, "Teacher's Tonic"),
-        new PotionRecipe(new List<string> { "Purity Blossom", "Fragment of Night" }, "Eclipse Elixir"),
-        new PotionRecipe(new List<string> { "Forbidden Fruit", "Faerie Dust" }, "Liquid Lie"),
-        new PotionRecipe(new List<string> { "Forbidden Fruit", "Fragment of Night" }, "Acidic Afterburn"),
-        new PotionRecipe(new List<string> { "Forbidden Fruit", "Dragon's Blood" }, "Combustive Concoction"),
-        new PotionRecipe(new List<string> { "Purity Blossom", "Forbidden Fruit" }, "Potion of Poison"),
-        new PotionRecipe(new List<string> { "Dragon's Blood", "Faerie Dust" }, "Paralyzing Philter"),
-        new PotionRecipe(new List<string> { "Southern Star Silt", "Fragment of Night" }, "Draught of Dreams"),
-        new PotionRecipe(new List<string> { "Faerie Dust", "Fragment of Night" }, "Blinding Brew")
-    };
     void Start()
     {
         makePotionButton.gameObject.SetActive(false); 
@@ -54,13 +38,13 @@ public class MixingPot : MonoBehaviour, IDropHandler
                 // Add the ingredient to the mixing pot
                 ingredients.Add(ingredient);
                 Debug.Log("Added: " + ingredient.name);
-                NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
+                //NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
                 PrintIngredients(); 
                 CheckPotionCombination();
             }
             else
             {
-                NotificationText.Instance.ShowNotification("Mixing Pot is full!");
+                //NotificationText.Instance.ShowNotification("Mixing Pot is full!");
                 Debug.Log("Mixing Pot is full!");
                 CheckPotionCombination();
             }
@@ -72,7 +56,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
         if (ingredients.Count == maxIngredients)
         {
             bool isValidRecipe = false;
-            foreach (var recipe in validPotionRecipes)
+            foreach (var recipe in PotionDatabase.Instance.potionList)
             {
                 // Check if current ingredients match a valid recipe
                 if (IsValidRecipe(recipe))
@@ -84,7 +68,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
 
                     if (potionButton != null)
                     {
-                        potionButton.UpdateButtonUI(recipe.potionName, validPotionRecipes.IndexOf(recipe));
+                        potionButton.UpdateButtonUI(recipe.potionName, recipe.potionID);
                     }
                     else
                     {
@@ -97,13 +81,13 @@ public class MixingPot : MonoBehaviour, IDropHandler
             if (!isValidRecipe)
             {
                 Debug.Log("Invalid combination! The ingredients cannot make a potion.");
-                NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
+                //NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
                 makePotionButton.gameObject.SetActive(false); // Hide the button if invalid
             }
         }
     }
     // Helper method to check if current ingredients match the recipe
-    private bool IsValidRecipe(PotionRecipe recipe)
+    private bool IsValidRecipe(Potion potion)
     {
         List<string> ingredientNames = new List<string>();
 
@@ -115,10 +99,10 @@ public class MixingPot : MonoBehaviour, IDropHandler
 
         // Sort both lists to make the order irrelevant
         ingredientNames.Sort();
-        recipe.ingredients.Sort();
+        potion.ingredients.Sort();
 
         // Check if the sorted ingredient list matches the recipe
-        return ingredientNames.SequenceEqual(recipe.ingredients);
+        return ingredientNames.SequenceEqual(potion.ingredients);
     }
 
     // Method to create the potion when the button is pressed
@@ -126,20 +110,19 @@ public class MixingPot : MonoBehaviour, IDropHandler
     {
         
         // Logic to create the potion (e.g., instantiate a potion object, play animation, etc.)
-        string potionName = GetPotionNameBasedOnIngredients(); // Combine ingredient names
-        int potionID = GetPotionIDBasedOnIngredients(potionName);
+        Potion potion = GetPotionBasedOnIngredients(); // Combine ingredient names
 
         // Call the method in StorageUnit to add this potion to storage
-        storageUnit.AddPotionToStorageFromMixingPot(potionName, potionID);
+        storageUnit.AddPotionToStorageFromMixingPot(potion.potionName, potion.potionID, potion.potionSprite, potion.ingredients);
 
         // Empty the pot after potion is created
         ingredients.Clear();
         makePotionButton.gameObject.SetActive(false); // Hide the button
     }
     // Define the logic to return a potionID based on the potion name
-    private string GetPotionNameBasedOnIngredients()
+    private Potion GetPotionBasedOnIngredients()
     {
-        foreach (var recipe in validPotionRecipes)
+        foreach (var recipe in PotionDatabase.Instance.potionList)
         {
             List<string> ingredientNames = new List<string>();
 
@@ -156,30 +139,17 @@ public class MixingPot : MonoBehaviour, IDropHandler
             // Check if the sorted ingredient list matches the recipe
             if (ingredientNames.SequenceEqual(recipe.ingredients))
             {
-                return recipe.potionName; // Return the matching potion name
-            }
+                return recipe; // Return the matching potion name
+            } 
         }
-
-        return "Unknown Potion"; // If no recipe matched
+        return null;
     }
-    // Define the logic to return a potionID based on the potion name
-    private int GetPotionIDBasedOnIngredients(string potionName)
-    {
-        for (int i = 0; i < validPotionRecipes.Count; i++)
-        {
-            if (validPotionRecipes[i].potionName == potionName)
-            {
-                return i; // Return the index of the matching potion in the list
-            }
-        }
-
-        return -1; // Invalid potion
-    }
+    
     // Method to empty the mixing pot
     public void EmptyPot()
     {
         ingredients.Clear();
-        NotificationText.Instance.ShowNotification("Mixing Pot has been emptied.");
+        //NotificationText.Instance.ShowNotification("Mixing Pot has been emptied.");
         Debug.Log("Mixing Pot has been emptied.");
     }
     // Print the current ingredients in the mixing pot
@@ -190,17 +160,5 @@ public class MixingPot : MonoBehaviour, IDropHandler
         {
             Debug.Log("- " + ingredient.name);
         }
-    }
-}
-
-public class PotionRecipe
-{
-    public List<string> ingredients;
-    public string potionName;
-
-    public PotionRecipe(List<string> ingredients, string potionName)
-    {
-        this.ingredients = ingredients;
-        this.potionName = potionName;
     }
 }

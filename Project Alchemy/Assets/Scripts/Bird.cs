@@ -12,7 +12,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
     public Slider timerSlider;
 
     private bool isClicked = false;      // To track if the bird has been clicked
-    private float timer = 15f;           // Timer for 60 seconds after the bird is clicked
+    private float timer = 45f;           // Timer for 60 seconds after the bird is clicked
     private bool isTimerRunning = false; // To track if the timer is running
     private Potion requestedPotion;      // The potion that the bird is requesting
     private bool hasReceivedPotion = false; // Flag to track if the bird received the correct potion
@@ -70,7 +70,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
         requestedPotion = PotionDatabase.Instance.potionList[randomPotionIndex];  // Assume PotionDatabase holds the list of potions
 
         Debug.Log("Bird requested: " + requestedPotion.potionName);
-        NotificationText.Instance.ShowNotification("Bird requested: " + requestedPotion.potionName);
+        //NotificationText.Instance.ShowNotification("Bird requested: " + requestedPotion.potionName);
         // Show the potion request above the bird
         potionRequestImage.gameObject.SetActive(true); // Make the potion request image visible
         potionRequestImage.sprite = PotionDatabase.Instance.potionSprites[randomPotionIndex]; // Set the requested potion sprite

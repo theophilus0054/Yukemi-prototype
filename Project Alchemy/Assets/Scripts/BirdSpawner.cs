@@ -24,14 +24,14 @@ public class BirdSpawner : MonoBehaviour
         StartCoroutine(SpawnBirds());
     }
 
-    void Update()
-    {
-        // Only attempt to spawn birds immediately if there are no birds and no other spawn is in progress
-        if (NoBirdsInSlots() && !spawningInProgress)
-        {
-            StartCoroutine(SpawnBirdsImmediately());
-        }
-    }
+    //void Update()
+    //{
+    //    // Only attempt to spawn birds immediately if there are no birds and no other spawn is in progress
+    //    if (NoBirdsInSlots() && !spawningInProgress)
+    //    {
+    //        StartCoroutine(SpawnBirds());
+    //    }
+    //}
 
     // Coroutine to spawn birds every 10 seconds, only if there's space available
     IEnumerator SpawnBirds()
@@ -45,26 +45,38 @@ public class BirdSpawner : MonoBehaviour
             }
             else
             {
-                //Debug.Log("Waiting for 10 seconds to spawn a new bird...");
-                yield return new WaitForSeconds(5f);  // Wait for 10 seconds before trying to spawn a bird
-                SpawnBird(); // Spawn a bird if there is space
+                int birdCount = GetBirdCountInSlots(); // Get how many birds are currently in the slots
+
+                // Adjust the spawn time based on the number of birds already in the slots
+                float waitTime = 0f;
+
+                switch (birdCount)
+                {
+                    case 0:
+                        waitTime = 2f; // Spawn immediately if there are 0 birds
+                        break;
+                    case 1:
+                        waitTime = 7f; // Spawn in 10 seconds if there is 1 bird
+                        break;
+                    case 2:
+                        waitTime = 15f; // Spawn in 20 seconds if there are 2 birds
+                        break;
+                    default:
+                        yield return null; // If all slots are full, do nothing
+                        break;
+                }
+
+                // If a wait time is defined, wait that amount of time before spawning a new bird
+                if (waitTime > 0f)
+                {
+                    spawningInProgress = true;
+                    Debug.Log("waiting for " + waitTime);
+                    yield return new WaitForSeconds(waitTime);
+                    SpawnBird(); // Spawn a bird after the waiting period
+                    spawningInProgress = false;
+                }
             }
         }
-    }
-
-    // Coroutine to spawn a bird immediately if there are no birds
-    IEnumerator SpawnBirdsImmediately()
-    {
-        spawningInProgress = true;
-
-        yield return new WaitForSeconds(1f);  // Wait for 1 second to spawn the first bird
-
-        if (NoBirdsInSlots()) // Check again if no birds are present
-        {
-            SpawnBird();
-        }
-
-        spawningInProgress = false;
     }
 
     public void ResetSlot(int slotIndex)
@@ -105,7 +117,7 @@ public class BirdSpawner : MonoBehaviour
             // Ensure that the spawning process continues if there's space
             if (NoBirdsInSlots() && !spawningInProgress)
             {
-                StartCoroutine(SpawnBirdsImmediately()); // Restart spawning immediately if necessary
+                StartCoroutine(SpawnBirds()); // Restart spawning immediately if necessary
             }
         }
     }
@@ -135,6 +147,22 @@ public class BirdSpawner : MonoBehaviour
         return true; // All slots are full
     }
 
+    int GetBirdCountInSlots()
+    {
+        int birdCount = 0;
+
+        foreach (var slot in birdSlots)
+        {
+            if (slot.transform.childCount > 0) // If there is a bird in this slot
+            {
+                birdCount++;
+            }
+        }
+
+        return birdCount;
+    }
+
+
     // Function to spawn a bird in an available slot
     void SpawnBird()
     {
@@ -152,7 +180,7 @@ public class BirdSpawner : MonoBehaviour
                 newBird.transform.SetParent(birdSlots[i].transform); // Set the parent to the slot (Bird1/Bird2/Bird3)
                 newBird.transform.localPosition = Vector3.zero; // Reset position to the slot's center
 
-                newBird.transform.localScale = new Vector2(2f, 2f);
+                newBird.transform.localScale = new Vector2(2.5f, 2.5f);
 
                 Bird bird = newBird.GetComponent<Bird>();
                 if (bird != null)

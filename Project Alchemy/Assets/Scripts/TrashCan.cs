@@ -37,7 +37,7 @@ public class TrashCan : MonoBehaviour, IDropHandler
                 //Debug.Log("Potion Ran2");
                 storageUnit.RemovePotion(dragPotion.currentPotion);
                 Debug.Log("Potion removed from storage: " + dragPotion.currentPotion.potionName);
-                NotificationText.Instance.ShowNotification(dragPotion.currentPotion.potionName + " removed from storage");
+                //NotificationText.Instance.ShowNotification(dragPotion.currentPotion.potionName + " removed from storage");
             }
         }
     }

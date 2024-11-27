@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,17 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
         potionSlotImage = GetComponent<Image>(); // Assuming the potion slot is the image component
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Set the potionSlotIndex dynamically based on the slot that was clicked
+        potionSlotIndex = Array.IndexOf(StorageUnit.Instance.potionSlots, potionSlotImage);
+
+        // Ensure that currentPotion is properly set based on the clicked slot
+        if (potionSlotIndex >= 0 && potionSlotIndex < StorageUnit.Instance.potions.Length)
+        {
+            currentPotion = StorageUnit.Instance.potions[potionSlotIndex];
+        }
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (canvas == null)
@@ -43,6 +55,7 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
 
             // Set the initial position of the clone to match the potion slot
             RectTransform cloneRectTransform = currentClone.GetComponent<RectTransform>();
+            cloneRectTransform.sizeDelta = new Vector2(200, 200);
             cloneRectTransform.SetParent(canvas.transform, false); // Set canvas as parent
 
             Vector2 cursorPos;
@@ -54,7 +67,7 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
             // Move the clone to the cursor position
             cloneRectTransform.anchoredPosition = cursorPos;
 
-            // Make the clone semi-transparent
+            // Make the clone 
             Color cloneColor = cloneImage.color;
             cloneColor.a = 1f;  // Set alpha to 50% transparency
             cloneImage.color = cloneColor;
@@ -81,11 +94,6 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
         {
             Destroy(currentClone);
         }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // Optionally, you can add code to handle pointer down events
     }
 
     // Set the potion data (potion sprite and slot index) for this drag behavior

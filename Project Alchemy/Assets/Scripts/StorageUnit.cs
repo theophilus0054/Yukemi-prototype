@@ -5,18 +5,39 @@ using UnityEngine.UI;
 
 public class StorageUnit : MonoBehaviour
 {
+    public static StorageUnit Instance;
+
     // Storage for up to 3 potions
     public Potion[] potions = new Potion[3];
-
-    // List of all possible potion sprites (12 different potions)
-    public Sprite[] potionSprites;
 
     // For keeping track of the buttons or slots to hold potion images
     public Image[] potionSlots = new Image[3];
 
     public Sprite emptyStorageSprite;  // Sprite when no potions are in the storage unit
-    public Sprite fullStorageSprite;
+    public Sprite oneStorageSprite;
+    public Sprite twoStorageSprite;
+    public Sprite threeStorageSprite;
     private Image storageUnitImage;
+
+    private void Awake()
+    {
+        // Ensure that only one instance of StorageUnit exists and assign it to Instance
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);  // Destroy duplicates if there's already an instance
+        }
+
+        // Ensure arrays are initialized if not already
+        if (potions == null)
+            potions = new Potion[3];
+        if (potionSlots == null)
+            potionSlots = new Image[3];
+    }
+
 
     void Start()
     {
@@ -31,7 +52,7 @@ public class StorageUnit : MonoBehaviour
         UpdateStorageUnitSprite();
     }
 
-    public void AddPotionToStorageFromMixingPot(string potionName, int potionID)
+    public void AddPotionToStorageFromMixingPot(string potionName, int potionID, Sprite potionSprite, List<string> ingredients)
     {
         bool isFull = true;
         for (int i = 0; i < potions.Length; i++)
@@ -46,7 +67,7 @@ public class StorageUnit : MonoBehaviour
         if (isFull)
         {
             // If the storage is full, print a message and return without adding the potion
-            NotificationText.Instance.ShowNotification("Storage is full!");
+            //NotificationText.Instance.ShowNotification("Storage is full!");
             Debug.Log("Storage is full!");
             return;
         }
@@ -57,20 +78,20 @@ public class StorageUnit : MonoBehaviour
             if (potions[i] == null)
             {
                 // Create the new potion based on the mixing pot result
-                Potion newPotion = new Potion(potionName, potionID);
+                Potion newPotion = new Potion(potionName, potionID, potionSprite, ingredients);
 
                 // Add it to the storage
                 potions[i] = newPotion;
 
                 // Update the slot image to match the potion sprite
-                potionSlots[i].sprite = potionSprites[potionID];
+                potionSlots[i].sprite = newPotion.potionSprite;
 
-                DragPotion dragPotion = potionSlots[i].GetComponent<DragPotion>();
-                if (dragPotion != null)
-                {
-                    dragPotion.SetPotionData(newPotion, i); // Pass the potion data to DragPotion
-                }
-                NotificationText.Instance.ShowNotification(newPotion.potionName + " created and was put in storage");
+                //DragPotion dragPotion = potionSlots[i].GetComponent<DragPotion>();
+                //if (dragPotion != null)
+                //{
+                //    dragPotion.SetPotionData(newPotion, i); // Pass the potion data to DragPotion
+                //}
+                //NotificationText.Instance.ShowNotification(newPotion.potionName + " created and was put in storage");
                 //Debug.Log("Potion created: " + newPotion.potionName);
                 // Break out of the loop as we've added a potion
                 break;
@@ -87,21 +108,22 @@ public class StorageUnit : MonoBehaviour
         {
             if (potions[i] != null && potions[i] == potionToRemove)
             {
-                //Debug.Log("Remove Ran");
-                // Remove the potion from the storage
                 potions[i] = null;
                 potionSlots[i].sprite = null;
 
                 // Shift the potions in the array to the left
-                for (int j = i; j < potions.Length - 1; j++)
+                for (int j = i; j < 2; j++)
                 {
                     potions[j] = potions[j + 1];  // Shift the potion to the left
                     potionSlots[j].sprite = potionSlots[j + 1].sprite;  // Move the sprite to the left
+                    potions[j + 1] = null;
+                    potionSlots[j + 1].sprite = null;
                 }
-                potions[potions.Length - 1] = null;
-                potionSlots[potions.Length - 1].sprite = null;
                 // Optionally, you can add some visual feedback or additional actions here
                 //Debug.Log("Potion removed from storage slot " + i);
+                Debug.Log("potion 1: " + potions[0]);
+                Debug.Log("potion 2: " + potions[1]);
+                Debug.Log("potion 3: " + potions[2]);
                 break;
             }
         }
@@ -127,21 +149,26 @@ public class StorageUnit : MonoBehaviour
 
     private void UpdateStorageUnitSprite()
     {
-        // Check if the storage has at least one potion
-        bool hasPotion = false;
-        foreach (Potion potion in potions)
+        int potionCount = 0;
+        for (int i = 0;i < potions.Length;i++)
         {
-            if (potion != null)
+            if (potions[i] != null)
             {
-                hasPotion = true;
-                break;
+                potionCount++;
             }
         }
 
-        // Set the appropriate sprite for the storage unit
-        if (hasPotion)
+        if (potionCount == 1)
         {
-            storageUnitImage.sprite = fullStorageSprite;
+            storageUnitImage.sprite = oneStorageSprite;
+        }
+        else if (potionCount == 2)
+        {
+            storageUnitImage.sprite = twoStorageSprite;
+        }
+        else if (potionCount == 3)
+        {
+            storageUnitImage.sprite = threeStorageSprite;
         }
         else
         {
