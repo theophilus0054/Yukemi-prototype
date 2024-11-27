@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class TrashCan : MonoBehaviour, IDropHandler
 {
+    public StorageUnit storageUnit;
     // This method is called when an object is dropped onto the trash can
     public void OnDrop(PointerEventData eventData)
     {

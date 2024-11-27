@@ -14,10 +14,10 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDrag
     public Sprite ingredientSprite;  // Public field to assign the ingredient sprite
 
 
-    
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -34,7 +34,8 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDrag
 
             // Set the size of the clone to match the original
             RectTransform cloneRectTransform = currentClone.GetComponent<RectTransform>();
-            cloneRectTransform.sizeDelta = new Vector2(250, 350);
+            cloneRectTransform.sizeDelta = rectTransform.sizeDelta * 0.5f;
+            cloneRectTransform.localScale = Vector2.one * 0.5f;
 
             // Position it where the original item is being dragged from
             Vector2 localPointerPosition;

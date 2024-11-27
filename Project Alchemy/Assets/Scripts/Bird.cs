@@ -50,7 +50,7 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
         if (!isClicked)
         {
             isClicked = true;
-            Debug.Log("Bird has been clicked!");
+            //Debug.Log("Bird has been clicked!");
 
             // Change the bird's sprite to "no scroll"
             GetComponent<Image>().sprite = noScrollSprite;
@@ -70,6 +70,8 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
         requestedPotion = PotionDatabase.Instance.potionList[randomPotionIndex];  // Assume PotionDatabase holds the list of potions
 
         Debug.Log("Bird requested: " + requestedPotion.potionName);
+        QuestManager.Instance.AddQuest(requestedPotion.potionName);
+        QuestManager.Instance.ShowQuestByIndex(slotIndex);
         //NotificationText.Instance.ShowNotification("Bird requested: " + requestedPotion.potionName);
         // Show the potion request above the bird
         potionRequestImage.gameObject.SetActive(true); // Make the potion request image visible
@@ -90,9 +92,10 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
             // If the timer runs out, remove the bird
             if (timer <= 0f)
             {
-                Debug.Log("Bird's timer expired.");
+                //Debug.Log("Bird's timer expired.");
                 // Remove the bird from the scene
-                NotificationText.Instance.ShowNotification("Bird got fed up of waiting, -10 points");
+                //NotificationText.Instance.ShowNotification("Bird got fed up of waiting, -10 points");
+                QuestManager.Instance.RemoveQuest(slotIndex);
                 RemoveBird();
             }
         }
@@ -120,9 +123,10 @@ public class Bird : MonoBehaviour, IPointerClickHandler, IDropHandler // Impleme
                 if (dragPotion.currentPotion.potionName == requestedPotion.potionName)
                 {
                     Debug.Log("Correct potion received!");
-                    NotificationText.Instance.ShowNotification("Bird received the right potion, +10 points");
+                    //NotificationText.Instance.ShowNotification("Bird received the right potion, +10 points");
                     hasReceivedPotion = true;
                     storageUnit.RemovePotion(dragPotion.currentPotion);
+                    QuestManager.Instance.RemoveQuest(slotIndex);
                     RemoveBird();
                 }
                 else

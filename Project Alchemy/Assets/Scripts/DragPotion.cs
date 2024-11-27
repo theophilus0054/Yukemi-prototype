@@ -22,6 +22,7 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
         rectTransform = GetComponent<RectTransform>();
         image = GetComponent<Image>();
         potionSlotImage = GetComponent<Image>(); // Assuming the potion slot is the image component
+        canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -37,10 +38,6 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (canvas == null)
-        {
-            canvas = FindObjectOfType<Canvas>(); // Find the canvas at runtime
-        }
 
         // Check if there's a potion assigned to the slot
         if (potionSlotImage.sprite != null) // Ensure that there's an actual sprite assigned
@@ -55,11 +52,11 @@ public class DragPotion : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,
 
             // Set the initial position of the clone to match the potion slot
             RectTransform cloneRectTransform = currentClone.GetComponent<RectTransform>();
-            cloneRectTransform.sizeDelta = new Vector2(200, 200);
+            cloneRectTransform.sizeDelta = new Vector2(100f, 100f);
             cloneRectTransform.SetParent(canvas.transform, false); // Set canvas as parent
 
             Vector2 cursorPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out cursorPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position, canvas.worldCamera, out cursorPos);
 
             // Offset the clone to be directly under the cursor
             cursorOffset = cursorPos - cloneRectTransform.anchoredPosition;

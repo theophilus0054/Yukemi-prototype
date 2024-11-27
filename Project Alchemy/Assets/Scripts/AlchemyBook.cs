@@ -54,21 +54,26 @@ public class AlchemyBook : MonoBehaviour
     public Sprite questBookSprite;      // Background sprite for Quest page
 
     // Ingredients sprites
-    public Sprite ing;
+    public Sprite PurityBlossom;
+    public Sprite SouthernStarSilt;
+    public Sprite ForbiddenFruit;
+    public Sprite DragonBlood;
+    public Sprite FaerieDust;
+    public Sprite FragmentOfNight;
 
     // Potions sprites
-    public Sprite RR;
-    public Sprite MM;
-    public Sprite SS;
-    public Sprite TT;
-    public Sprite EE;
-    public Sprite LL;
-    public Sprite AA;
-    public Sprite CC;
-    public Sprite PPoi;
-    public Sprite PPhi;
-    public Sprite DD;
-    public Sprite BB;
+    public Sprite RestorativeRemedy;
+    public Sprite MixtureOfMana;
+    public Sprite SalveOfStrength;
+    public Sprite TeachersTonic;
+    public Sprite EclipseElixir;
+    public Sprite LiquidLie;
+    public Sprite AcidicAfterburn;
+    public Sprite CombustiveConcoction;
+    public Sprite PotionOfPoison;
+    public Sprite ParalyzingPhilter;
+    public Sprite DraughtOfDreams;
+    public Sprite BlindingBrew;
 
     // Close overlay
     public Button closeOverlayButton; // The full-screen transparent button
@@ -77,26 +82,26 @@ public class AlchemyBook : MonoBehaviour
     public string[] ingredientNames = { 
         "Purity Blossom", 
         "Southern Star Silt", 
-        "Forbidden Fruit", 
-        "Dragon’s Blood", 
+        "Forbidden Fruit",
+        "Dragon's Blood", 
         "Faerie Dust", 
         "Fragment of Night" 
     };
 
     public string[][] potionsRecipe =
     {
-            new string[] { "Purity Blossom", "Dragon’s Blood"},
-            new string[] { "Southern Star Silt", "Dragon’s Blood"},
-            new string[] { "Dragon’s Blood", "Southern Star Silt"},
+            new string[] { "Purity Blossom", "Dragon's Blood"},
+            new string[] { "Southern Star Silt", "Faerie Dust"},
+            new string[] { "Dragon's Blood", "Southern Star Silt"},
             new string[] { "Southern Star Silt", "Purity Blossom"},
             new string[] { "Purity Blossom", "Fragment of Night"},
-            new string[] { "Dragon’s Blood", "Forbidden Fruit"},
+            new string[] { "Faerie Dust", "Forbidden Fruit"},
             new string[] { "Forbidden Fruit", "Fragment of Night"},
-            new string[] { "Forbidden Fruit", "Dragon’s Blood"},
+            new string[] { "Forbidden Fruit", "Dragon's Blood"},
             new string[] { "Forbidden Fruit", "Purity Blossom"},
-            new string[] { "Dragon’s Blood", "Dragon’s Blood"},
+            new string[] { "Faerie Dust", "Dragon's Blood"},
             new string[] { "Southern Star Silt", "Fragment of Night"},
-            new string[] { "Dragon’s Blood", "Fragment of Night" }
+            new string[] { "Faerie Dust", "Fragment of Night" }
         };
 
     public string[] ingredientDescriptions = {
@@ -112,7 +117,7 @@ public class AlchemyBook : MonoBehaviour
         "Restorative Remedy", 
         "Mixture of Mana", 
         "Salve of Strength", 
-        "Teacher’s Tonic", 
+        "Teacher's Tonic", 
         "Eclipse Elixir", 
         "Liquid Lie",
         "Acidic Afterburn", 
@@ -145,8 +150,25 @@ public class AlchemyBook : MonoBehaviour
     void Awake()
     {
         // Initialize the arrays in Awake or Start
-        ingredientImages = new Sprite[] { ing, ing, ing, ing, ing, ing };
-        potionImages = new Sprite[] { RR, MM, SS, TT, EE, LL, AA, CC, PPoi, PPhi, DD, BB };
+        ingredientImages = new Sprite[] { PurityBlossom, 
+                                            SouthernStarSilt, 
+                                            ForbiddenFruit, 
+                                            DragonBlood, 
+                                            FaerieDust, 
+                                            FragmentOfNight };
+
+        potionImages = new Sprite[] { RestorativeRemedy, 
+                                        MixtureOfMana, 
+                                        SalveOfStrength, 
+                                        TeachersTonic, 
+                                        EclipseElixir, 
+                                        LiquidLie, 
+                                        AcidicAfterburn, 
+                                        CombustiveConcoction, 
+                                        PotionOfPoison, 
+                                        ParalyzingPhilter, 
+                                        DraughtOfDreams, 
+                                        BlindingBrew };
 
 }
     void Start()
@@ -235,6 +257,7 @@ public class AlchemyBook : MonoBehaviour
     public void OpenBook()
     {
         // Show the book background and bookmarks
+        //Debug.Log("Book opened");
         bookBackground.SetActive(true);
         bookmarksPanel.SetActive(true);
         closeOverlayButton.gameObject.SetActive(true); // Show overlay
@@ -290,6 +313,12 @@ public class AlchemyBook : MonoBehaviour
         {
             int id1 = System.Array.IndexOf(ingredientNames, ing1);
             int id2 = System.Array.IndexOf(ingredientNames, ing2);
+            //Debug.Log("ing 1: " + ing1);
+            //Debug.Log("ing 2: " + ing2);
+            //for (int i = 0; i < ingredientNames.Length; i++)
+            //{
+            //    Debug.Log(ingredientNames[i]);
+            //}
             if (id1 != -1 && id2 != -1)
             {
                 detailedRecipe.SetActive(true);
@@ -426,7 +455,7 @@ public class AlchemyBook : MonoBehaviour
                     string ingred1 = potionsRecipe[i][0];
                     string ingred2 = potionsRecipe[i][1];
                     itemButton.onClick.AddListener(() => SelectItem(itemButton, itemImage.sprite, itemDescription, null, ingred1, ingred2));
-                    Debug.Log("Potion recipe: " + ingred1 + " + " + ingred2);
+                    //Debug.Log("Potion recipe: " + ingred1 + " + " + ingred2);
                 } 
                 else
                 {

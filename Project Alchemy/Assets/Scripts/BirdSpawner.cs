@@ -70,7 +70,7 @@ public class BirdSpawner : MonoBehaviour
                 if (waitTime > 0f)
                 {
                     spawningInProgress = true;
-                    Debug.Log("waiting for " + waitTime);
+                    //Debug.Log("waiting for " + waitTime);
                     yield return new WaitForSeconds(waitTime);
                     SpawnBird(); // Spawn a bird after the waiting period
                     spawningInProgress = false;
@@ -188,7 +188,7 @@ public class BirdSpawner : MonoBehaviour
                     bird.slotIndex = i;  // Assign the slot index directly to the bird
                 }
 
-                Debug.Log("New bird spawned in Slot " + (i + 1) + " with prefab: " + selectedBirdPrefab.name);
+                //Debug.Log("New bird spawned in Slot " + (i + 1) + " with prefab: " + selectedBirdPrefab.name);
 
                 break; // Exit the loop after spawning one bird
             }

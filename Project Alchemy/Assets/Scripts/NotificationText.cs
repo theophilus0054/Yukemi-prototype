@@ -51,7 +51,13 @@ public class NotificationText : MonoBehaviour
 
         // Set the position to the upper middle of the screen with vertical offset
         RectTransform rectTransform = newNotification.rectTransform;
-        rectTransform.anchoredPosition = new Vector2(0, Screen.height / 6);  // Upper middle + vertical offset
+        rectTransform.pivot = new Vector2(0.5f, 1f);  // Pivot set to upper-middle
+        rectTransform.anchorMin = new Vector2(0.5f, 1f);  // Anchor set to upper-middle
+        rectTransform.anchorMax = new Vector2(0.5f, 1f);  // Anchor set to upper-middle
+        float topOffset = 50f;
+        float canvasHeight = canvas.GetComponent<RectTransform>().rect.height;
+        Vector2 screenCenter = new Vector2(0, canvasHeight / 2 - topOffset);
+        rectTransform.anchoredPosition = screenCenter;  // Upper middle + vertical offset
 
         // Fade In
         yield return StartCoroutine(Fade(newNotification, 1f));
@@ -125,7 +131,7 @@ public class NotificationText : MonoBehaviour
     // Update the positions of active notifications
     private void UpdateNotificationPositions()
     {
-        float currentYOffset = Screen.height / 6; // Starting position for the first notification
+        float currentYOffset = Screen.height * 0.25f; // Starting position for the first notification
 
         // Loop through each active notification and update its position
         List<TMP_Text> validNotifications = new List<TMP_Text>(notificationQueue);
@@ -141,6 +147,10 @@ public class NotificationText : MonoBehaviour
 
             // Update the offset for the next notification (include spacing between notifications)
             currentYOffset -= rectTransform.rect.height + verticalSpacing;
+            if(currentYOffset < 0)
+            {
+                break; // Stop positioning notifications off the screen
+            }
         }
     }
 

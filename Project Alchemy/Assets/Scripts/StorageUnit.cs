@@ -121,9 +121,9 @@ public class StorageUnit : MonoBehaviour
                 }
                 // Optionally, you can add some visual feedback or additional actions here
                 //Debug.Log("Potion removed from storage slot " + i);
-                Debug.Log("potion 1: " + potions[0]);
-                Debug.Log("potion 2: " + potions[1]);
-                Debug.Log("potion 3: " + potions[2]);
+                //Debug.Log("potion 1: " + potions[0]);
+                //Debug.Log("potion 2: " + potions[1]);
+                //Debug.Log("potion 3: " + potions[2]);
                 break;
             }
         }

@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
+
 
 public class MixingPot : MonoBehaviour, IDropHandler
 {
@@ -35,7 +38,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
             {
                 // Add the ingredient to the mixing pot
                 ingredients.Add(ingredient);
-                Debug.Log("Added: " + ingredient.name);
+                //Debug.Log("Added: " + ingredient.name);
                 // NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
                 PrintIngredients(); 
                 CheckPotionCombination();
@@ -43,7 +46,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
             else
             {
                 // NotificationText.Instance.ShowNotification("Mixing Pot is full!");
-                Debug.Log("Mixing Pot is full!");
+                //Debug.Log("Mixing Pot is full!");
             }
         }
     }
@@ -59,13 +62,13 @@ public class MixingPot : MonoBehaviour, IDropHandler
                 if (IsValidRecipe(recipe))
                 {
                     isValidRecipe = true;
-                    Debug.Log("Valid potion combination: " + string.Join(" + ", recipe.potionName));
+                    //Debug.Log("Valid potion combination: " + string.Join(" + ", recipe.potionName));
                     makePotionButton.gameObject.SetActive(true); // Show the button to make potion
                     PotionButton potionButton = makePotionButton.GetComponent<PotionButton>();
 
                     if (potionButton != null)
                     {
-                        potionButton.UpdateButtonUI(recipe.potionName, validPotionRecipes.IndexOf(recipe));
+                        potionButton.UpdateButtonUI(recipe.potionName, recipe.potionID);
                     }
                     else
                     {
@@ -77,8 +80,8 @@ public class MixingPot : MonoBehaviour, IDropHandler
 
             if (!isValidRecipe)
             {
-                Debug.Log("Invalid combination! The ingredients cannot make a potion.");
-                // NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
+                //Debug.Log("Invalid combination! The ingredients cannot make a potion.");
+                NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
                 makePotionButton.gameObject.SetActive(false); // Hide the button if invalid
             }
         }
