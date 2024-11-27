@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System.Linq;
 
 public class MixingPot : MonoBehaviour, IDropHandler
 {
@@ -38,15 +36,14 @@ public class MixingPot : MonoBehaviour, IDropHandler
                 // Add the ingredient to the mixing pot
                 ingredients.Add(ingredient);
                 Debug.Log("Added: " + ingredient.name);
-                //NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
+                // NotificationText.Instance.ShowNotification("Added: " + ingredient.name);
                 PrintIngredients(); 
                 CheckPotionCombination();
             }
             else
             {
-                //NotificationText.Instance.ShowNotification("Mixing Pot is full!");
+                // NotificationText.Instance.ShowNotification("Mixing Pot is full!");
                 Debug.Log("Mixing Pot is full!");
-                CheckPotionCombination();
             }
         }
     }
@@ -68,7 +65,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
 
                     if (potionButton != null)
                     {
-                        potionButton.UpdateButtonUI(recipe.potionName, recipe.potionID);
+                        potionButton.UpdateButtonUI(recipe.potionName, validPotionRecipes.IndexOf(recipe));
                     }
                     else
                     {
@@ -81,7 +78,7 @@ public class MixingPot : MonoBehaviour, IDropHandler
             if (!isValidRecipe)
             {
                 Debug.Log("Invalid combination! The ingredients cannot make a potion.");
-                //NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
+                // NotificationText.Instance.ShowNotification("Invalid ingredient combination!");
                 makePotionButton.gameObject.SetActive(false); // Hide the button if invalid
             }
         }
@@ -110,17 +107,17 @@ public class MixingPot : MonoBehaviour, IDropHandler
     {
         
         // Logic to create the potion (e.g., instantiate a potion object, play animation, etc.)
-        Potion potion = GetPotionBasedOnIngredients(); // Combine ingredient names
+        Potion potion = GetPotionBasedOnIngredients();
 
         // Call the method in StorageUnit to add this potion to storage
-        storageUnit.AddPotionToStorageFromMixingPot(potion.potionName, potion.potionID, potion.potionSprite, potion.ingredients);
+       storageUnit.AddPotionToStorageFromMixingPot(potion.potionName, potion.potionID, potion.potionSprite, potion.ingredients);
 
         // Empty the pot after potion is created
         ingredients.Clear();
         makePotionButton.gameObject.SetActive(false); // Hide the button
     }
     // Define the logic to return a potionID based on the potion name
-    private Potion GetPotionBasedOnIngredients()
+     private Potion GetPotionBasedOnIngredients()
     {
         foreach (var recipe in PotionDatabase.Instance.potionList)
         {
@@ -144,12 +141,12 @@ public class MixingPot : MonoBehaviour, IDropHandler
         }
         return null;
     }
-    
+   
     // Method to empty the mixing pot
     public void EmptyPot()
     {
         ingredients.Clear();
-        //NotificationText.Instance.ShowNotification("Mixing Pot has been emptied.");
+        // NotificationText.Instance.ShowNotification("Mixing Pot has been emptied.");
         Debug.Log("Mixing Pot has been emptied.");
     }
     // Print the current ingredients in the mixing pot

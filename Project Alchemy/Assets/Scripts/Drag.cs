@@ -13,21 +13,16 @@ public class Drag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDrag
 
     public Sprite ingredientSprite;  // Public field to assign the ingredient sprite
 
+
+    
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (canvas == null)
-        {
-            canvas = FindObjectOfType<Canvas>(); // Find the canvas at runtime
-        }
-
         //Debug.Log("BeginDrag");
-
         if (gameObject.CompareTag("Ingredient"))
         {
             // Create a new gameObject for the ingredient sprite

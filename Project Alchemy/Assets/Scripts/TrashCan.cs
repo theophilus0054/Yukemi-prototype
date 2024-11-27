@@ -3,15 +3,11 @@ using UnityEngine.EventSystems;
 
 public class TrashCan : MonoBehaviour, IDropHandler
 {
-    public StorageUnit storageUnit;
-    
-
     // This method is called when an object is dropped onto the trash can
     public void OnDrop(PointerEventData eventData)
     {
         // Get the object being dropped
         GameObject draggedObject = eventData.pointerDrag;
-        //Debug.Log("Object dropped: " + draggedObject.name + " with tag: " + draggedObject.tag);
 
         // Check if the dragged object is tagged as "MixingPot"
         if (draggedObject != null && draggedObject.CompareTag("MixingPot"))
@@ -37,7 +33,7 @@ public class TrashCan : MonoBehaviour, IDropHandler
                 //Debug.Log("Potion Ran2");
                 storageUnit.RemovePotion(dragPotion.currentPotion);
                 Debug.Log("Potion removed from storage: " + dragPotion.currentPotion.potionName);
-                //NotificationText.Instance.ShowNotification(dragPotion.currentPotion.potionName + " removed from storage");
+                // NotificationText.Instance.ShowNotification(dragPotion.currentPotion.potionName + " removed from storage");
             }
         }
     }
