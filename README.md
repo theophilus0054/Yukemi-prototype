@@ -13,9 +13,9 @@ Untuk dapat menginstal game ini, anda dapat menikuti beberapa langkah berikut:
 3. Mainkan game dalam unity editor
 
 Jika mengalami error saat menjalankan gamenya, anda bisa menciba memainkan game ini di itch.io melalui link berikut
-'''sh
+```sh
 https://kirakuinw.itch.io/yukemi
-'''
+```
 
 ## Cara Berkontribusi Pada Prototype Game Ini
 
