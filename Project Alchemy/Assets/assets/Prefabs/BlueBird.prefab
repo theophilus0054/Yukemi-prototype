@@ -254,8 +254,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotIndex: 0
-  scrollSprite: {fileID: 21300000, guid: b1da5d6eed396a8458732ef9dc7d236a, type: 3}
-  noScrollSprite: {fileID: 21300000, guid: 958ce19efb73801449d881f214756de8, type: 3}
+  scrollSprite: {fileID: 21300000, guid: 9141d0d246e84ac48bc76f38ec299632, type: 3}
+  noScrollSprite: {fileID: 21300000, guid: bf58305914b0701409c125d6ea13df97, type: 3}
   potionRequestImage: {fileID: 5849108501490473306}
   storageUnit: {fileID: 0}
   timerSlider: {fileID: 455401104476761537}
