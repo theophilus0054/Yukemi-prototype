@@ -55,6 +55,8 @@ public class Settings : MonoBehaviour
         {
             overlay.gameObject.SetActive(false);
         }
+        settingsButton.onClick.RemoveAllListeners();
+        settingsButton.onClick.AddListener(OnSettingsButtonClicked);
     }
 
     // Called when the "Exit" button is clicked
